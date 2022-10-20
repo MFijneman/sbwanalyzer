@@ -209,10 +209,19 @@ void SbwAnalyzerResults::GenerateExportFile(const char* file, DisplayBase displa
 	AnalyzerHelpers::EndFile(f);
 }
 
-void SbwAnalyzerResults::GenerateFrameTabularText(U64 /*frame_index*/, DisplayBase /*display_base*/)
+void SbwAnalyzerResults::GenerateFrameTabularText(U64 frame_index, DisplayBase display_base)
 {
-	ClearResultStrings();
-	AddResultString("not supported");
+	Frame frame = GetFrame( frame_index );
+	ClearTabularText();
+	char buf[128];
+	char tdi[32], tdo[32];
+
+	
+			AnalyzerHelpers::GetNumberString(frame.mData1, display_base, 0, tdi, 32);
+			AnalyzerHelpers::GetNumberString(frame.mData2, display_base, 0, tdo, 32);
+			sprintf(buf, "%s / %s", tdi, tdo);
+			AddTabularText(buf);
+
 }
 
 void SbwAnalyzerResults::GeneratePacketTabularText(U64 /*packet_id*/, DisplayBase /*display_base*/)
